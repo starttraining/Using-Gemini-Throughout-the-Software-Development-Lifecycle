@@ -1,0 +1,68 @@
+This lab uses the Cymbal Superstore grocery web app. In subsequent tasks of this lab, you use Gemini to develop and deploy a new feature in this app. In this task, you build the frontend and backend components of this app.
+
+Configure the environment
+Execute the following commands and the next two subtasks in Cloud Shell.
+
+To run the Docker credential helper, run the following command:
+
+gcloud auth configure-docker
+Copied!
+If asked to continue, type Y.
+
+Download the cymbal-superstore application code:
+
+gcloud storage cp gs://cloud-training/OCBL435/cymbal-superstore.zip . && unzip cymbal-superstore && rm cymbal-superstore.zip
+Copied!
+Build the backend
+The web app backend implements an inventory API that is used by the frontend to fetch and update products.
+
+To build the backend application container image, run the following commands:
+
+cd ~/cymbal-superstore/backend
+docker build --platform linux/amd64 -t gcr.io/qwiklabs-gcp-00-192f0aa39162/cymbal-inventory-api .
+Copied!
+Push the backend container image to Artifact Registry:
+
+docker push gcr.io/qwiklabs-gcp-00-192f0aa39162/cymbal-inventory-api
+Copied!
+To deploy the backend as a service on Cloud Run, run the following command:
+
+gcloud run deploy inventory --image=gcr.io/qwiklabs-gcp-00-192f0aa39162/cymbal-inventory-api --port=8000 --region=us-central1 --set-env-vars=PROJECT_ID=qwiklabs-gcp-00-192f0aa39162 --allow-unauthenticated
+Copied!
+Copy the value of the Service URL that is displayed in the output of the gcloud run deploy command.
+
+Build the frontend
+Build the frontend by executing the commands in your Cloud Shell terminal.
+
+Update the frontend code to connect to your backend Cloud Run endpoint:
+
+a. In the Cloud Shell menubar, click Open Editor.
+
+b. In the editor View menu, click Toggle hidden files.
+
+c. In the folder list in Explorer, select cymbal-superstore.
+
+d. Expand the frontend folder, and select the file .env.production.
+
+e. In the file, replace the value of REACT_APP_INVENTORY_API_URL by pasting the value of your Cloud Run backend service endpoint URL that you copied earlier.
+
+To build the frontend, click Open Terminal, and then run the following commands in Cloud Shell:
+
+cd ~/cymbal-superstore/frontend
+npm install && npm run build
+Copied!
+To upload the frontend web app to Cloud Storage, run the following command:
+
+gcloud storage cp -r build/* gs://qwiklabs-gcp-00-192f0aa39162-cymbal-frontend
+Copied!
+View the web app
+Open a tab in your browser, and then navigate to the following URL:
+
+http://34.54.38.105
+Copied!
+Note: If you get a pop-up indicating that the external IP doesn't support a secure connection, click Continue to site.
+The web app displays the home page of the Cymbal Superstore.
+
+Click New Arrivals.
+
+You should see a mock frontend page with placeholder products. This is expected, as you will implement the backend Inventory API code to serve the new products page in subsequent tasks of this lab.

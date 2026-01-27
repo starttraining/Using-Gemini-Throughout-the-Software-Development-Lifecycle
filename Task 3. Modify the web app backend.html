@@ -1,0 +1,51 @@
+Let's now use Gemini to add functionality to our web app backend.
+
+In this task, you prompt Gemini for code completion to implement the /newproducts endpoint in the app.
+
+Develop the /newproducts endpoint
+In the Cloud Shell editor, open the file backend/index.ts.
+
+In the index.ts source code file, scroll to line 91 where you see the placeholder comment for the /newproducts endpoint:
+
+// Your code for the GET /newproducts endpoint goes here.
+Replace the placeholder comment with the following Gemini prompt:
+
+// Create a new endpoint /newproducts that uses where filters to retrieve only products that were added within the last seven days and are in stock.
+Copied!
+To prompt Gemini to generate the function code, select the entire comment, and then click the bulb (Code OSS Gemini bulb).
+
+In the More Actions menu, select Gemini: Generate code.
+
+Hover over the generated code, and in the Gemini toolbar, click Accept.
+
+Gemini populates the function code for the /newproducts endpoint.
+
+Note: Gemini might generate multiple versions of the code for your prompt. You can choose a specific version by scrolling through the list in the toolbar.
+The generated code should be similar to the following:
+
+app.get("/newproducts", async (req: Request, res: Response) => {
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000); // 7 days ago
+  const products = await firestore
+    .collection("inventory")
+    .where("timestamp", ">=", sevenDaysAgo)
+    .where("quantity", ">", 0)
+    .get();
+  const productsArray: any[] = [];
+  products.forEach((product) => {
+    const p: Product = {
+      id: product.id,
+      name: product.data().name,
+      price: product.data().price,
+      quantity: product.data().quantity,
+      imgfile: product.data().imgfile,
+      timestamp: product.data().timestamp,
+      actualdateadded: product.data().actualdateadded,
+    };
+    productsArray.push(p);
+  });
+  res.send(productsArray);
+});
+Copied!
+If your generated code does not look equivalent to the example in the previous step, replace the code in index.ts with the code from the previous step.
+
+Remove any additional or incomplete function code that might be added to the source file by Gemini.

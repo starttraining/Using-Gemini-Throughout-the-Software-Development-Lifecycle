@@ -1,0 +1,22 @@
+Rebuild and redeploy the backend
+Follow the previous steps to rebuild the updated backend service container image, push the image to the registry, and redeploy the backend service to Cloud Run. The steps are repeated here for convenience.
+
+In Cloud Shell, open a new terminal, or use the terminal that is already open.
+
+To build the backend container image, push it to the repository, and deploy the backend service on Cloud Run, run the following commands:
+
+cd ~/cymbal-superstore/backend
+docker build --platform linux/amd64 -t gcr.io/qwiklabs-gcp-00-192f0aa39162/cymbal-inventory-api .
+docker push gcr.io/qwiklabs-gcp-00-192f0aa39162/cymbal-inventory-api
+gcloud run deploy inventory --image=gcr.io/qwiklabs-gcp-00-192f0aa39162/cymbal-inventory-api --port=8000 --region=us-central1 --set-env-vars=PROJECT_ID=qwiklabs-gcp-00-192f0aa39162 --allow-unauthenticated
+Copied!
+Test the web app
+Open a tab in your browser, and then navigate to the following URL:
+
+http://34.54.38.105
+Copied!
+The web app displays the home page of the Cymbal Superstore.
+
+Click New Arrivals.
+
+The page should display products that are returned in the response from the /newproducts endpoint, which you implemented in the previous task.

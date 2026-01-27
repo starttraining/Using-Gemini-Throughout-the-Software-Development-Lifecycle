@@ -1,0 +1,26 @@
+In this task, you write a test for the new products API in the backend with help from Gemini.
+
+Develop the test
+In the Cloud Shell editor, open the file backend/index.test.ts.
+
+Note: This file contains a few simple tests that are developed with a tool called supertest, using the Jest testing framework.
+To open the Gemini Code Assist chat window, in the menu bar of the code editor, click Gemini Code Assist Chat.
+
+Cloud Shell editor Gemini Code Assist
+
+To prompt Gemini to help you write a test for the GET endpoint /newproducts, type the prompt below, and click Send (Gemini send):
+
+Help me write an Express.js test using Jest, in typescript, for the GET /newproducts handler in index.ts. The test should check if the response code is 200 and the list of new products is length 8.
+Copied!
+Gemini responds with the generated test code. Copy and paste the describe code block for the /newproducts endpoint into the backend/index.test.ts file.
+
+Note: Copy only the describe code block. You do not need to copy the import statements in the example.
+Run the test
+To execute the tests, in the Cloud Shell terminal run the following commands:
+
+cd ~/cymbal-superstore/backend
+npm run test
+Copied!
+As indicated by the output of the test command, all tests are executed and pass.
+
+Note: The output also indicates that the test suite failed to run due to the Jest environment being torn down. You can ignore this error and move to the next task.

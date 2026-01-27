@@ -1,0 +1,62 @@
+Let's test the /newproducts backend endpoint locally using npm.
+
+Set the PORT environment variable
+Before running the backend, you must set the PORT environment variable.
+
+In the Cloud Shell editor menubar, select View > Command Palette....
+
+In the command palette, type user settings json, and from the list, select Preferences: Open User Settings (JSON).
+
+Update the JSON object by adding the following attribute:
+
+"terminal.integrated.env.linux": {
+    "PORT": "8000"
+}
+Copied!
+Make sure to append a comma to the end of the previous attribute in the JSON object.
+After adding the attribute, the attributes object should be similar to this:
+
+{
+  "window.menuBarVisibility": "classic",
+  "window.commandCenter": true,
+  "http.proxySupport": "off",
+  "workbench.startupEditor": "welcomePageInEmptyWorkbench",
+  "redhat.telemetry.enabled": false,
+  "workbench.layoutControl.enabled": false,
+  "window.autoDetectColorScheme": true,
+  "geminicodeassist.project": "cloudshell-gca",
+  "terminal.integrated.defaultProfile.linux": "Google Cloud Shell",
+  "terminal.integrated.env.linux": {
+    "PORT": "8000"
+  }
+}
+Run the backend server
+In the Cloud Shell terminal, authenticate the application to access Firestore:
+
+gcloud auth application-default login
+Copied!
+Follow the instructions by clicking the link to authenticate your Google Cloud account and copy/paste the authorization code where requested.
+
+To start the backend server, run the following commands:
+
+cd ~/cymbal-superstore/backend
+npm run start
+Copied!
+The backend inventory API server starts and is ready when it shows the following text:
+
+Cymbal Superstore: Inventory API running on port: 8000
+Invoke the /newproducts endpoint
+In the Cloud Shell terminal menu bar, click + to open a new terminal.
+
+To invoke the API endpoint, run the following command:
+
+curl localhost:8000/newproducts
+Copied!
+The command responds with an error:
+
+curl: (52) Empty reply from server
+In the original terminal window view the exception trace that is logged from the backend.
+
+From the trace, it seems that the root cause of the exception is:
+
+details: ...'The query contains range and inequality filters on multiple fields, please refer to the documentation for index selection best practices: https://cloud.google.com/firestore/docs/query-data/multiple-range-fields.',

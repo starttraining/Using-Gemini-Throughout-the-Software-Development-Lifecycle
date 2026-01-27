@@ -1,0 +1,58 @@
+Get help from Gemini Code Assist
+In the Cloud Shell editor, open the backend/index.ts file.
+
+To open the Gemini Code Assist chat window, in the menu bar of the code editor, click Gemini Code Assist Chat.
+
+Cloud Shell editor Gemini Code Assist
+
+In the Ask Gemini prompt, type the following prompt, and then click Send (Gemini send):
+
+Help me debug this Firestore client error: The query contains range and inequality filters on multiple fields
+Copied!
+Gemini responds with the explanation of this error and suggestions to fix it. Here's part of an example response:
+
+ "The query contains range and inequality filters on multiple fields" in Firestore arises when you try to use range operators (like >, >=, <, <=) or inequality operators (!=) on more than one field in a single query. Firestore's indexing limitations prevent it from efficiently handling such queries.<p>Gemini also provides a solution to fix the error.</p>
+Note: Gemini can generate different responses each time it's run, so your response may not match the example shown.
+To fix this error, you will only use a single inequality filter.
+
+In the backend/index.ts file, to remove the quantity filter, delete the following code from the /newproducts handler:
+
+.where("quantity", ">", 0)
+By deleting this code, there is now only one inequality filter that checks the timestamp, products with a quantity of 0 will not be filtered from the API response.
+
+To remove products that have a quantity of 0, wrap the code in products.forEach() with the following if statement:
+
+if (product.data().quantity > 0) {
+}
+Copied!
+After you wrap the code with the if statement, the products.forEach() code should look similar to:
+
+products.forEach((product) => {
+  if (product.data().quantity > 0) {
+    const p: Product = {
+      id: product.id,
+      name: product.data().name,
+      price: product.data().price,
+      quantity: product.data().quantity,
+      imgfile: product.data().imgfile,
+      timestamp: product.data().timestamp,
+      actualdateadded: product.data().actualdateadded,
+    };
+    productsArray.push(p);
+  }
+});
+Save the backend/index.ts file.
+
+Re-test the API
+To restart the backend API server, in a terminal, run the following commands:
+
+cd ~/cymbal-superstore/backend
+npm run start
+Copied!
+Switch to the other bash terminal, and then run the curl command again:
+
+curl localhost:8000/newproducts
+Copied!
+The backend API responds with a json array that contains a list of recently added products.
+
+In the original Cloud Shell terminal, type Control+C to exit the application.

@@ -1,0 +1,56 @@
+In this task, you get help from Gemini to upload data to a table in BigQuery, and construct a query that fetches data from that table.
+
+Upload data to BigQuery
+In the Google Cloud console Navigation menu (navmenu), select BigQuery.
+
+In the BigQuery Explorer pane, expand qwiklabs-gcp-00-192f0aa39162, expand the cymbal_sales dataset, and then select the table cymbalsalestable.
+
+Note: The dataset and table have been pre-provisioned for this lab. Data for the table is in CSV format, and is stored in a bucket in Cloud Storage.
+To open the Gemini Cloud Assist chat window, in the Google Cloud console top menu, click Open Gemini (Gemini menu), and then click Start Chatting.
+
+For the Gemini prompt, type the text below, and then click Send (Gemini send):
+
+What bq command can be used to upload CSV data from Cloud Storage to BigQuery?
+Copied!
+View the response from Gemini. The response contains the bq load command which can be run to upload data from Cloud Storage to BigQuery.
+
+In Cloud Shell, run the following command:
+
+bq load --source_format=CSV --autodetect cymbal_sales.cymbalsalestable gs://qwiklabs-gcp-00-192f0aa39162-cymbal-frontend/sales_bq_rawdata.csv
+Copied!
+Note: The command already includes the substituted names of the BigQuery dataset and table, and the path to your Cloud Storage bucket that contains the CSV data. It also uses the option to autodetect the table schema.
+In the BigQuery UI, click Refresh (Google Cloud console Refresh button).
+
+View the table's schema.
+
+Click Query.
+
+Replace the default query with:
+
+SELECT * FROM `qwiklabs-gcp-00-192f0aa39162.cymbal_sales.cymbalsalestable` LIMIT 1000;
+Copied!
+To run the query, click Run.
+
+In the Results tab, view the results of the query that contains data from the table. The table contains sample weekly aggregate sales data of product sales from the Cymbal Superstore web application.
+
+Generate a SQL query with help from Gemini
+Let's use Gemini to help generate a query for weekly sales total amounts.
+
+To prompt Gemini to generate a query for the sales of the following week of Aug 12, in the same Query field below the previously entered query, leave a blank line, and click Gemini (magic pencil) on the left side of the blank line.
+
+In the Generate SQL with Gemini dialog, type:
+
+# Get sales for total_aug_12
+Copied!
+Click Generate.
+
+Wait for Gemini to generate the query. Then, click Insert.
+
+Explain and run the query
+Select the query, right-click, and choose Explain Current Selection. You can also click the Gemini magic pencil that appears in the left margin.
+
+An explanation of the SQL query is provided in the Cloud Assist chat window.
+
+To run the query, click Run.
+
+The query results are displayed in the Results tab at the bottom of the page.

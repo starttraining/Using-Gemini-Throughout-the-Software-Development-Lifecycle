@@ -1,0 +1,22 @@
+Sign in to the Google Cloud console with your lab credentials, and open the Cloud Shell terminal window.
+
+To set your project ID, in Cloud Shell, run the following commands:
+
+PROJECT_ID=$(gcloud config get-value project)
+echo "PROJECT_ID=${PROJECT_ID}"
+Copied!
+Store the signed-in Google user account in an environment variable:
+
+USER=$(gcloud config get-value account 2> /dev/null)
+echo "USER=${USER}"
+Copied!
+Enable the Cloud AI Companion API for Gemini:
+
+gcloud services enable cloudaicompanion.googleapis.com --project ${PROJECT_ID}
+Copied!
+To use Gemini, grant the necessary IAM roles to your Google Skills user account:
+
+gcloud projects add-iam-policy-binding ${PROJECT_ID} --member user:${USER} --role=roles/cloudaicompanion.user
+gcloud projects add-iam-policy-binding ${PROJECT_ID} --member user:${USER} --role=roles/serviceusage.serviceUsageViewer
+Copied!
+Adding these roles lets the user use Gemini assistance.
