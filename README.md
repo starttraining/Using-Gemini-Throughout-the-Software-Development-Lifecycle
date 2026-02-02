@@ -1,5 +1,8 @@
 # Using-Gemini-Throughout-the-Software-Development-Lifecycle
 
+Lab: https://www.skills.google/paths/236/course_templates/885/labs/473706
+Video: https://youtu.be/Jb14L6vq_QM
+
 ## Task 1. Configure your environment and account
 ## Task 2. Build the web app
 ## Task 3. Modify the web app backend
@@ -11,4 +14,3 @@
 ## Task 9. Use Gemini with Spanner
 ## Task 10. View logs with help from Gemini
 
-Lab: https://www.skills.google/paths/236/course_templates/885/labs/473706
